@@ -1,0 +1,245 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+
+# General File Types
+*.pem
+*.log
+*.tmp
+*.bak
+*.swp
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
+orleans.codegen.cs
+
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/.vscode/
+.venv/
+.idea/
+
+
+# Environment Files
+.env*.local
+
+
+# Testing
+/coverage
+*.coverage
+*.coveragexml
+*.dotCover
+*.snupkg
+TestResult.xml
+nunit-*.xml
+*.tsbuildinfo
+
+
+# Build Outputs
+/build
+/out/
+/dist/
+/tmp/
+.DS_Store
+*.pidb
+*.pdb
+*.ilk
+*.obj
+*.sbr
+*.tli
+*.tlb
+*.tmp_proj
+*.log
+*.rsp
+*.pch
+*.meta
+*.iobj
+*.pgc
+*.pgd
+
+
+# IDEs and Editors
+# Visual Studio
+.vs/
+Generated\ Files/
+.vspscc
+.vssscc
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+# Visual Studio Code
+.vscode/
+
+
+# Visual Studio (C# & .NET)
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.build.csdef
+*.nuget.props
+*.nuget.targets
+# NuGet Packages
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+# MSBuild Binary and Structured Log
+*.binlog
+# Visual Studio profiler and trace files
+*.psess
+*.vsp
+*.vspx
+*.sap
+*.e2e
+
+
+# Platform-Specific Files
+# Windows
+*.exe
+*.dll
+*.bat
+*.cmd
+*.lib
+*.obj
+*.pch
+*.ipdb
+
+
+# Vercel (Next.js)
+.vercel
+.next/
+
+
+# Miscellaneous
+*.rsuser
+*.suo
+*.userprefs
+*.cache
+*.aps
+*.ncb
+*.opendb
+*.sdf
+*.VC.db
+*.VC.VC.opendb
+*.vcxproj*
+*.vssscc
+*.svn*
+*~*
+~$*
+healthchecksdb
+migrationBackup/
+
+
+# Azure / Cloud Services
+PublishScripts/
+*.azurePubxml
+*.pubxml
+*.publishproj
+csx/
+*.build.csdef
+ecf/
+rcf/
+
+
+# ReSharper (C#)
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+
+# Xamarin
+.mfractor/
+_Pvt_Extensions
+
+
+# Python
+__pycache__/
+*.pyc
+
+
+# Visual Studio Build Results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+
+# Miscellaneous Tools
+# Cake - Uncomment if you are using it
+# tools/**
+# !tools/packages.config
+# NCrunch
+_NCrunch_*
+.*crunch*.local.xml
+nCrunchTemp_*
+
+# BenchmarkDotNet.Artifacts/
+# AxoCover
+.axoCover/*
+!.axoCover/settings.json
+
+# Specific Visual Studio/Tools Files
+# TFS
+$tf/
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Telerik JustMock
+*.jmconfig
+
+# Fody
+FodyWeavers.xsd
+
+# OpenCover
+OpenCover/
+
+# SQL Server Files
+*.mdf
+*.ldf
+*.ndf
+
+# SQL Server Reporting
+*.rdl.data
+*.rptproj.rsuser
+*- [Bb]ackup.rdl
+*- [Bb]ackup ([0-9]).rdl
+
+# ClickOnce & Web Publish
+publish/
+*.[Pp]ublish.xml
+*.azurePubxml
+*.pubxml
+*.publishproj
+
+# Visual Studio Test Results
+TestResult.xml
+nunit-*.xml
+
+
+# Miscellaneous Configurations
+docs/
+*.[Cc]ache
+?*.[Cc]ache/
+
+
+# Project-Specific Files
