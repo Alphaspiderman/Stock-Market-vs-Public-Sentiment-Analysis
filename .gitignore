@@ -243,3 +243,5 @@ docs/
 
 
 # Project-Specific Files
+/scripts/comments.csv
+/scripts/yt_links.txt

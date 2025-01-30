@@ -23,11 +23,11 @@ youtube = googleapiclient.discovery.build(
 )
 
 
-def fetch_all_comments(video_id, max_comments):
+def fetch_all_comments(video_id):
     comments_data = []
     next_page_token = None
 
-    while len(comments_data) < max_comments:
+    while True:
         request = youtube.commentThreads().list(
             part="snippet",
             videoId=video_id,
@@ -40,7 +40,6 @@ def fetch_all_comments(video_id, max_comments):
         # comments and likes counts
         comments_data.extend([
             {
-                'id': item['snippet']['topLevelComment']['id'],
                 'comment': item['snippet']['topLevelComment']['snippet']['textDisplay'],
                 'likeCount': item['snippet']['topLevelComment']['snippet']['likeCount'],
                 'publishedAt': item['snippet']['topLevelComment']['snippet']['publishedAt'],
@@ -53,10 +52,33 @@ def fetch_all_comments(video_id, max_comments):
         if not next_page_token:
             break
 
-    return comments_data[:max_comments]
+    return comments_data
 
 
-# fetch all the comments
+'''
 all_comments = fetch_all_comments(video_ids[0], max_comments=200)
 
 print(all_comments[:10])
+'''
+# fetch all the comments
+
+all_comments = []
+comment_id = 1
+
+for v_id in video_ids:
+    video_comments = fetch_all_comments(v_id)
+    for comment in video_comments:
+        comment['id'] = comment_id
+        comment['video_id'] = v_id
+        all_comments.append(comment)
+        comment_id += 1
+
+# save to csv
+
+headers = ['id', 'video_id', 'comment', 'likeCount', 'publishedAt']
+
+
+with open("scripts/comments.csv", mode="w", newline="", encoding="utf-8") as file:
+    writer = csv.DictWriter(file, fieldnames=headers)
+    writer.writeheader()
+    writer.writerows(all_comments)
