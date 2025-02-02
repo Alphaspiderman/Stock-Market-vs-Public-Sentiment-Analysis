@@ -87,9 +87,11 @@ for v_id in video_ids:
 
 # Save the comments to a CSV file
 headers = ["id", "video_id", "comment", "likeCount", "publishedAt"]
-
+output_file = "./comments.csv"
 # Write the comments to a CSV file
-with open("scripts/comments.csv", mode="w", newline="", encoding="utf-8") as file:
+with open(output_file, mode="w", newline="", encoding="utf-8") as file:
     writer = csv.DictWriter(file, fieldnames=headers)
     writer.writeheader()
     writer.writerows(all_comments)
+
+print(f"Comments Extracted to {output_file}")
