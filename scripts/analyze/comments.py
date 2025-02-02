@@ -1,0 +1,1 @@
+# TODO: Send cleaned comments thourgh various Sentiment Analysis models to get the sentiment and map to a time series

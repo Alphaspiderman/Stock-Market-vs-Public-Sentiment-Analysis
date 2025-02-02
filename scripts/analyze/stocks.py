@@ -1,0 +1,1 @@
+# TODO: Analyze stock data to see trends and patterns over time
