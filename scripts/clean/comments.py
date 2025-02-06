@@ -6,8 +6,17 @@ import re
 from langdetect import detect
 import os
 
+# Define like count threshold to filter out comments
+min_likes = 5
+
+# Define keywords to filter out comments
+banned_keywords = {"palestine"}
+
 # Function to clean each comment
 def clean_comment(comment):
+    if not comment:
+        return None  # Skip empty comments
+    
     # Convert HTML entities to text
     comment = html.unescape(comment)
     
@@ -21,12 +30,16 @@ def clean_comment(comment):
     except:
         return None  # In case language detection fails
 
+    # Remove comments containing banned keywords
+    if any(keyword in comment.lower() for keyword in banned_keywords):
+        return None
+
     # Return cleaned comment
     return comment
 
 # Read the existing comments from the CSV file
-input_file = "../extract/comments.csv"
-output_file = "./cleaned_comments.csv"
+input_file = "../temp/comments_5090.csv"
+output_file = "../temp/cleaned_comments.csv"
 cleaned_comments = []
 
 # Open the CSV file and read its contents
@@ -36,6 +49,17 @@ with open(input_file, mode="r", newline="", encoding="utf-8") as file:
     
     # Loop through each comment and clean it
     for row in reader:
+        
+        try:
+            like_count = int(row["likeCount"].strip()) if row["likeCount"].strip() else 0
+        except ValueError:
+            print(f"Skipping row with invalid likeCount: {row['likeCount']}")
+            continue  # Skip rows with invalid like_counts
+        
+        # Keep only comments with at least min_likes
+        if like_count < min_likes:
+            continue
+        
         cleaned_comment = clean_comment(row["comment"])
         
         if cleaned_comment:  # Only include valid comments
