@@ -31,4 +31,4 @@ for stock in COMPANY_NAMES.keys():
 combined_stock_data = pd.concat(all_stock_data)
 
 # Save the stock data to a CSV file
-combined_stock_data.to_csv("stock_data.csv")
+combined_stock_data.to_csv("../temp/stock_data.csv")

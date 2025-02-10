@@ -18,7 +18,7 @@ if DEV_KEY is None:
 # Read the video ids from the file
 video_ids = []
 
-with open("scripts/yt_links_5090.txt", "r") as file:
+with open("./yt_links_5090.txt", "r") as file:
     content = file.readlines()
     video_ids = [re.findall(r"v=([a-zA-Z0-9_-]+)", link)[0]
                  for link in content]
@@ -89,7 +89,7 @@ for v_id in video_ids:
 
 # Save the comments to a CSV file
 headers = ["id", "video_id", "comment", "likeCount", "publishedAt"]
-output_file = "scripts/temp/comments_5090.csv"
+output_file = "../temp/comments_5090.csv"
 # Write the comments to a CSV file
 with open(output_file, mode="w", newline="", encoding="utf-8") as file:
     writer = csv.DictWriter(file, fieldnames=headers)

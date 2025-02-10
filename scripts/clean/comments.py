@@ -7,7 +7,7 @@ from langdetect import detect
 import os
 
 # Define like count threshold to filter out comments
-min_likes = 5
+min_likes = 0
 
 # Define keywords to filter out comments
 banned_keywords = {"palestine"}
@@ -18,10 +18,14 @@ def clean_comment(comment):
         return None  # Skip empty comments
     
     # Convert HTML entities to text
+    
     comment = html.unescape(comment)
     
     # Replace <br> with a space
     comment = re.sub(r'<br\s*/?>', ' ', comment)
+
+    comment = re.sub(r"<.*?>", "", comment) # Remove HTML tags
+    comment = re.sub(r"http\S+", "", comment) # Remove links
     
     # Remove non-English comments using language detection
     try:

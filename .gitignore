@@ -240,8 +240,3 @@ nunit-*.xml
 docs/
 *.[Cc]ache
 ?*.[Cc]ache/
-
-
-# Project-Specific Files
-*.csv
-*.txt

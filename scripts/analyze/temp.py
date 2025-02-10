@@ -1,4 +1,4 @@
-# TODO: Send cleaned comments thourgh various Sentiment Analysis models to get the sentiment and map to a time series 
+# Sentiment Score and Time Series Analysis
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -20,26 +20,31 @@ df = pd.read_csv("../temp/cleaned_comments.csv")
 # Convert timestamp to datetime
 df["publishedAt"] = pd.to_datetime(df["publishedAt"])
 
-# Function to get sentiment label
+# Function to get sentiment score
 def get_sentiment(comment):
     if pd.isna(comment) or comment.strip() == "":
-        return "Neutral"  # Neutral for empty or missing comments
+        return 0  # Neutral for empty or missing comments
     result = sentiment_pipeline(comment)[0]
     sentiment = result["label"]
     if sentiment == "LABEL_0":  # Negative
-        return "Negative"
+        return -1
     elif sentiment == "LABEL_1":  # Neutral
-        return "Neutral"
+        return 0
     elif sentiment == "LABEL_2":  # Positive
-        return "Positive"
+        return 1
 
 # Apply sentiment analysis
-df["sentiment_label"] = df["comment"].apply(get_sentiment)
+df["sentiment_score"] = df["comment"].apply(get_sentiment)
 
-# Create a new DataFrame with the selected columns
-df_output = df[["publishedAt", "comment", "sentiment_label"]]
+# Aggregate sentiment over time
+df.set_index("publishedAt", inplace=True)
+df_resampled = df["sentiment_score"].resample("D").mean()  # Aggregate hourly
 
-# Save to a new CSV file
-df_output.to_csv("../temp/sentiment_analysis_results.csv", index=False)
-
-print("Sentiment analysis results saved to 'sentiment_analysis_results.csv'.")
+# Plot time series
+plt.figure(figsize=(12, 6))
+plt.plot(df_resampled, marker="o", linestyle="-", color="b")
+plt.xlabel("Date")
+plt.ylabel("Average Sentiment Score")
+plt.title("Sentiment Analysis Over Time")
+plt.grid()
+plt.show()
