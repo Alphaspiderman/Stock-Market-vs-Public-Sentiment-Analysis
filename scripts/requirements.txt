@@ -3,3 +3,5 @@ python-dotenv
 yfinance
 transformers
 torch
+papaparse
+recharts
