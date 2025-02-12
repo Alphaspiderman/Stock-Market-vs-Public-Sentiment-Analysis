@@ -1,4 +1,4 @@
-# TODO: Send cleaned comments thourgh various Sentiment Analysis models to get the sentiment and map to a time series 
+# TODO: Send cleaned comments thourgh various Sentiment Analysis models to get the sentiment and map to a time series
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -39,7 +39,10 @@ df["sentiment_label"] = df["comment"].apply(get_sentiment)
 # Create a new DataFrame with the selected columns
 df_output = df[["publishedAt", "comment", "sentiment_label"]]
 
-# Save to a new CSV file
+# Save to a new CSV file for frontend
+df_output.to_csv("../../frontend/public/data/sentiment_analysis_results.csv", index=False)
+
+# Saved in temp for trials
 df_output.to_csv("../temp/sentiment_analysis_results.csv", index=False)
 
 print("Sentiment analysis results saved to 'sentiment_analysis_results.csv'.")
