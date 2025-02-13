@@ -84,7 +84,7 @@ export function SentimentChart() {
                 <CardDescription>Showing the sentiment of people</CardDescription>
             </CardHeader>
             <CardContent>
-                <ChartContainer config={chartConfig}>
+                <ChartContainer config={chartConfig} >
                     <LineChart
                         accessibilityLayer
                         data={data}
@@ -99,6 +99,8 @@ export function SentimentChart() {
                             tickLine={false}
                             axisLine={false}
                             tickMargin={10}
+                            interval={2}
+
                         />
                         <YAxis
                             domain={[-0.5, 0.5]}
