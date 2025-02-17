@@ -27,7 +27,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <h1 className="text-center text-5xl mt-10 font-bold">Analysis of Pubilc Sentiment on NVIDIA</h1>
         {children}
       </body>
     </html>
