@@ -103,7 +103,7 @@ export function SentimentChart() {
 
                         />
                         <YAxis
-                            domain={[-0.5, 0.5]}
+                            domain={[-1.5, 1.5]}
                         />
                         <ChartTooltip
                             cursor={false}
