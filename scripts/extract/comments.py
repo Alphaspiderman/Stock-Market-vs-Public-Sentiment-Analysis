@@ -18,7 +18,7 @@ if DEV_KEY is None:
 # Read the video ids from the file
 video_ids = []
 
-with open("./yt_links_5090.txt", "r") as file:
+with open("../yt_links_5090.txt", "r") as file:
     content = file.readlines()
     video_ids = [re.findall(r"v=([a-zA-Z0-9_-]+)", link)[0]
                  for link in content]

@@ -6,6 +6,7 @@ import re
 from langdetect import detect
 import os
 from datetime import datetime
+from transformers import AutoTokenizer
 
 # Define like count threshold to filter out comments
 min_likes = 0
@@ -13,6 +14,9 @@ min_likes = 0
 # Define keywords to filter out comments
 banned_keywords = {"palestine"}
 
+# Load tokenizer for truncation
+tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+max_tokens = 512  # Maximum allowed tokens
 
 # Function to convert the data string to a datetime object for sorting
 def parse_date(date_str):
@@ -46,6 +50,12 @@ def clean_comment(comment):
     # Remove comments containing banned keywords
     if any(keyword in comment.lower() for keyword in banned_keywords):
         return None
+
+    # Tokenize and truncate the comment properly
+    comment = tokenizer.decode(
+        tokenizer(comment, truncation=True, max_length=max_tokens, return_tensors="pt")["input_ids"][0],
+        skip_special_tokens=True
+    )
 
     # Return cleaned comment
     return comment
