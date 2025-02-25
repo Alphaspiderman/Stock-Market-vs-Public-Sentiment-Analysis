@@ -5,7 +5,8 @@ import html
 import re
 from langdetect import detect
 import os
-from datetime import datetime
+import pytz
+from datetime import datetime, timezone
 from transformers import AutoTokenizer
 
 # Define like count threshold to filter out comments
@@ -18,14 +19,25 @@ banned_keywords = {"palestine"}
 tokenizer = AutoTokenizer.from_pretrained("roberta-base")
 max_tokens = 512  # Maximum allowed tokens
 
+# Define time zones
+utc_zone = timezone.utc
+est_zone = pytz.timezone("US/Eastern")
+
+# Function to convert timestamp to EST and format it
+def convert_to_est(utc_str):
+    try:
+        utc_time = datetime.strptime(utc_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=utc_zone)
+        est_time = utc_time.astimezone(est_zone)
+        return est_time  # Format to match stock data
+    except ValueError:
+        return None  # Return None if parsing fails
+
 # Function to convert the data string to a datetime object for sorting
 def parse_date(date_str):
-
     try:
         return datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ")
     except ValueError:
         return None  # Return None if parsing fails
-
 
 # Function to clean each comment
 def clean_comment(comment):
@@ -35,7 +47,7 @@ def clean_comment(comment):
     # Convert HTML entities to text
     comment = html.unescape(comment)
 
-    # Replace <br> with a space
+    # Replace <br> with a space and remove HTML tags & links
     comment = re.sub(r"<br\s*/?>", " ", comment)
     comment = re.sub(r"<.*?>", "", comment)  # Remove HTML tags
     comment = re.sub(r"http\S+", "", comment)  # Remove links
@@ -60,7 +72,6 @@ def clean_comment(comment):
     # Return cleaned comment
     return comment
 
-
 # Read the existing comments from the CSV file
 input_file = "../temp/comments_5090.csv"
 output_file = "../temp/cleaned_comments.csv"
@@ -71,11 +82,16 @@ with open(input_file, mode="r", newline="", encoding="utf-8") as file:
     reader = csv.DictReader(file)
     headers = reader.fieldnames
 
+    if headers is None:
+        raise ValueError("CSV file is empty or malformed.")
+
+    # Remove 'id' from headers
+    headers = [header for header in headers if header not in ["id","video_id"]]
+
     # Loop through each comment and clean it
     for row in reader:
-
         try:
-            like_count = (int(row["likeCount"].strip()) if row["likeCount"].strip() else 0)
+            like_count = int(row["likeCount"].strip()) if row["likeCount"].strip() else 0
         except ValueError:
             print(f"Skipping row with invalid likeCount: {row['likeCount']}")
             continue  # Skip rows with invalid like_counts
@@ -88,26 +104,23 @@ with open(input_file, mode="r", newline="", encoding="utf-8") as file:
 
         if cleaned_comment:  # Only include valid comments
             row["comment"] = cleaned_comment
-            row["parsed_date"] = parse_date(
-                row["publishedAt"]
-            )  # Parse date for sorting
-            if row["parsed_date"]:  # Ensure date parsing was successful
+            est_time = convert_to_est(row["publishedAt"])  # Convert timestamp to EST
+            if est_time:
+                row["publishedAt"] = est_time  # Replace with EST formatted time
+                row.pop("id", None)  # Ensure "id" is removed
+                row.pop("video_id", None)
                 cleaned_comments.append(row)
 
-# Sort comments by date if a valid date was parsed
-cleaned_comments.sort(key=lambda x: x["parsed_date"])
 
-# Remove parsed_date before writing to file
+# Sort comments by publishedAt (datetime object)
+cleaned_comments.sort(key=lambda x: x["publishedAt"])
+
 for row in cleaned_comments:
-    del row["parsed_date"]
-    row.pop("id", None)  # Remove id
+    row["publishedAt"] = row["publishedAt"].strftime("%Y-%m-%d %H:%M:%S%z")  # Convert back to string
 
-# Check if the output file exists, if not create it
-if not os.path.exists(os.path.dirname(output_file)):
-    os.makedirs(os.path.dirname(output_file))
 
-# Remove 'id' column in the output
-headers = [header for header in headers if header != "id"]
+# Ensure output directory exists
+os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
 # Write the cleaned comments to a new CSV file
 with open(output_file, mode="w", newline="", encoding="utf-8") as file:

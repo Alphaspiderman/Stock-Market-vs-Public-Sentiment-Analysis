@@ -7,9 +7,7 @@ END_DATE = "2025-01-31"
 
 # Names of companies and their stock tickers
 COMPANY_NAMES = {
-    "NVDA": "NVIDIA Corporation",
-    "MSFT": "Microsoft Corporation",
-    "AVGO": "Broadcom Inc.",
+    "NVDA": "NVIDIA Corporation"
 }
 
 
