@@ -37,5 +37,8 @@ ax2.set_ylabel("Sentiment Score", color="red")
 ax2.plot(merged_df["Date"], merged_df["sentiment_score"], color="red", label="Sentiment Score")
 ax2.tick_params(axis="y", labelcolor="red")
 
+# Horizontal line for Neutral Sentiment Score
+ax2.axhline(y=0, color="black", linestyle="dashed", linewidth=1.2, label="Sentiment = 0")
+
 plt.title("NVIDIA Stock Price vs Daily Sentiment Score")
 plt.show()

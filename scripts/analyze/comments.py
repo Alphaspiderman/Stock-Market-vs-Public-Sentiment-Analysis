@@ -37,7 +37,7 @@ def get_sentiment(comment):
 df["sentiment_label"] = df["comment"].apply(get_sentiment)
 
 # Create a new DataFrame with the selected columns
-df_output = df[["publishedAt", "comment", "sentiment_label"]]
+df_output = df[["publishedAt", "comment","likeCount", "sentiment_label"]]
 
 # Save to a new CSV file for frontend
 df_output.to_csv("../../frontend/public/data/sentiment_analysis_results.csv", index=False)
